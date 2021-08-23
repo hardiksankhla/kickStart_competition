@@ -4,50 +4,50 @@ using namespace std;
 int main(){
     int t;
     cin>>t;
-    string s;
-    string output;
     
     for (int a = 0; a < t; a++)
     {
+        string s;
         cin>>s;
-        
+        int n = s.length();
         vector<int> arr(256,0);
-        for (int i = 0; i < s.length(); i++)
+
+        for (int i = 0; i < n; i++)
         {
             arr[s[i]]++;
         }
+
         int maxAlpha = INT_MIN;
-        
         for (int i = 0; i < 256; i++)
         {
             maxAlpha = max(maxAlpha, arr[i]);
         }
-        
-        string temp = s;
-        output ="";
 
-        if (2*maxAlpha>s.length()){
+        string output ="";
+
+        if (2*maxAlpha > n){
             output = "IMPOSSIBLE";
         }
         else{
-            sort(temp.begin(), temp.end());
-            do
+            vector<char> temp(n,'a');
+            vector<pair<char, int>> s2(n);
+
+            for (int i = 0; i < n; i++)
             {
-                bool flag = true;
-                for (int i = 0; i < s.length(); i++)
-                {
-                    if (temp[i]==s[i])
-                    {
-                        flag = false;
-                        break;
-                        }  
-                }
-                if (flag)
-                {
-                    output = temp;
-                    break;
-                }
-            } while (next_permutation(temp.begin(), temp.end())); 
+                s2[i] = {s[i],i};
+            }
+
+            sort(s2.begin(),s2.end());
+
+            for (int i = 0; i < n; i++)
+            {
+                temp[s2[(i+n/2)%n].second] = s2[i].first;
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                output+=temp[i];   
+            }
         }
         cout<<"Case #"<<a+1<<": "<<output<<endl;
     }

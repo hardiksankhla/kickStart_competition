@@ -60,15 +60,27 @@ int main(){
             cuts2+= ceil(min(r-r1, r2)/double(k))+ceil(width/double(k));
         }
 
-
+        // outer cuts
         long long output = min(cuts1,cuts2);
-
-        output+= min( 
-        (length-1) * ceil(width/double(k)) + (length * (width-1)),
-        (width-1) * ceil(length/double(k)) + (width * (length-1)) );
-        cout<<endl;
+        // inner cuts
+        output+= (length/k)*(width/k)*(pow(k,2)+1)+ (length/k)*(width%k)*k + (width/k)*(length%k)*k ;
+        if (length%k!=0 and width%k!=0)
+        {
+            output += (width%k)*(length%k)-1;
+        }
+        if (length%k==0)
+        {
+            output-= ceil(width/double(k)) ;
+        }
+        if (width%k==0)
+        {
+            output-= ceil(length/double(k)) ;
+        }
+        
+        
+        // cout<<endl;
         cout<<"Case #"<<i+1<<": "<<output<<endl;
-        cout<<endl;
+        // cout<<endl;
     }
     
     return 0;
